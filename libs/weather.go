@@ -1,11 +1,10 @@
-package main
+package weather
 
 import (
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
-	"os"
 	"time"
 )
 
@@ -71,7 +70,7 @@ func (w WeatherResponse) String() string {
 //	return weather
 //}
 
-func weatherReqCity(api string, city string, country_code string) WeatherResponse {
+func WeatherReqCity(api string, city string, country_code string) WeatherResponse {
 	url := "https://api.openweathermap.org/data/2.5/weather?q=%s,%s&appid=%s&units=imperial"
 	//formats the request url with the city, and api key
 	url = fmt.Sprintf(url, city, country_code, api)
@@ -93,14 +92,4 @@ func weatherReqCity(api string, city string, country_code string) WeatherRespons
 		return WeatherResponse{}
 	}
 	return result
-}
-
-func main() {
-	var key = os.Getenv("WEATHER_KEY")
-	//fmt.Println(weatherReqLatLong(key, test))
-	boiseWeather := weatherReqCity(key, "Boise", "us")
-	fmt.Println(boiseWeather)
-	fmt.Println("\n")
-	tokyoWeather := weatherReqCity(key, "Tokyo", "jp")
-	fmt.Println(tokyoWeather)
 }
