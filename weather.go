@@ -11,14 +11,21 @@ import (
 
 // sets how the data is to be contained
 type WeatherResponse struct {
-	Name string `json:"name"`
-	Main struct {
-		Temp     float64 `json:"temp"`
-		Humidity int     `json:"humidity"`
+	Name     string `json:"name"`
+	Timezone int    `json:"timezone"`
+	DT       int64  `json:"dt"`
+	Main     struct {
+		Temp      float64 `json:"temp"`
+		FeelsLike float64 `json:"feels_like"`
+		Humidity  int     `json:"humidity"`
 	} `json:"main"`
 	Weather []struct {
 		Description string `json:"description"`
 	} `json:"weather"`
+	Wind struct {
+		Speed float64 `json:"speed"`
+		Deg   int     `json:"deg"`
+	} `json:"wind"`
 }
 
 // Sets the cords into a list
@@ -66,8 +73,8 @@ func weatherReqCity(api string, city string) WeatherResponse {
 	//creates json template using the scruct built above
 	var result WeatherResponse
 	//encodes the response into the above format and returns
-	err := json.NewDecoder(weather.Body).Decode(&result)
-	if err != nil {
+	data := json.NewDecoder(weather.Body).Decode(&result)
+	if data != nil {
 		return WeatherResponse{}
 	}
 	return result
@@ -79,5 +86,6 @@ func main() {
 	test := setCords(10, 20)
 	fmt.Println(test)
 	//fmt.Println(weatherReqLatLong(key, test))
-	fmt.Println(weatherReqCity(key, "Boise"))
+	boise_weather := weatherReqCity(key, "Boise")
+	fmt.Println(boise_weather)
 }
