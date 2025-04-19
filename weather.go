@@ -71,10 +71,10 @@ func (w WeatherResponse) String() string {
 //	return weather
 //}
 
-func weatherReqCity(api string, city string) WeatherResponse {
-	url := "https://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s&units=imperial"
+func weatherReqCity(api string, city string, country_code string) WeatherResponse {
+	url := "https://api.openweathermap.org/data/2.5/weather?q=%s,%s&appid=%s&units=imperial"
 	//formats the request url with the city, and api key
-	url = fmt.Sprintf(url, city, api)
+	url = fmt.Sprintf(url, city, country_code, api)
 	//makes the request
 	weather, _ := http.Get(url)
 	// waits until request pings back to continue running errors if it doesn't
@@ -98,6 +98,6 @@ func weatherReqCity(api string, city string) WeatherResponse {
 func main() {
 	var key = os.Getenv("WEATHER_KEY")
 	//fmt.Println(weatherReqLatLong(key, test))
-	boiseWeather := weatherReqCity(key, "Boise")
+	boiseWeather := weatherReqCity(key, "Boise", "us")
 	fmt.Println(boiseWeather)
 }
