@@ -30,7 +30,7 @@ type WeatherResponse struct {
 
 // Assures that when the struct is printed it doest look trashy
 func (w WeatherResponse) String() string {
-	t := time.Unix(w.DT, 0).UTC()
+	t := time.Unix(w.DT, 0).UTC().Add(time.Second * time.Duration(w.Timezone))
 	return fmt.Sprintf("City: %s\nTime: %s\nTemp: %.1f°C\nFeels Like: %.1f°C\nHumidity: %d%% \nWind: (Speed: %f, Angle: %d) \n Desc: %s",
 		w.Name,
 		t.Format("2006-01-02 15:04:05"),
@@ -100,4 +100,7 @@ func main() {
 	//fmt.Println(weatherReqLatLong(key, test))
 	boiseWeather := weatherReqCity(key, "Boise", "us")
 	fmt.Println(boiseWeather)
+	fmt.Println("\n")
+	tokyoWeather := weatherReqCity(key, "Tokyo", "jp")
+	fmt.Println(tokyoWeather)
 }
