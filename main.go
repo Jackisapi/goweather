@@ -21,6 +21,10 @@ func main() {
 	flag.Parse()
 
 	var key = os.Getenv("WEATHER_KEY")
+	if key == "" {
+		panic("Missing WEATHER_KEY")
+		os.Exit(1)
+	}
 	fmt.Println(weather.WeatherReqCity(key, city, countryCode))
 
 }

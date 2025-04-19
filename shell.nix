@@ -14,6 +14,9 @@ pkgs.mkShell {
     export GOBIN=$GOPATH/bin
     export PATH=$GOBIN:$PATH
 
+    export WEATHER_KEY=*Place key here*
+
+    go build -o goweather
 
     echo "Go dev environment ready"
   '';
